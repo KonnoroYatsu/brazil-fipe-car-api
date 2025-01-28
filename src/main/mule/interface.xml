@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<flow name="test-flow" doc:id="93719f3c-a807-4be6-aa39-d6bdc7693ae7" >
+		<http:listener doc:name="Listener" doc:id="fc134d21-9197-4916-81c2-8fa4a3c40048" config-ref="HTTP_Listener_Config" path="/carros-fipe">
+			<http:response statusCode="#[vars.httpStatus default 200]" />
+			<http:error-response statusCode="#[vars.httpStatus default 200]" />
+		</http:listener>
+		<flow-ref doc:name="main-brasil-fipe-car-api-flow" doc:id="ceaeac9b-a543-42cb-9160-4d36980f84ff" name="main-brasil-fipe-car-api-flow"/>
+	</flow>
+</mule>

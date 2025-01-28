@@ -1,0 +1,7 @@
+fipe_api:
+  host: "parallelum.com.br"
+  base_path: "fipe/api/v1"
+  paths: 
+    brands: "carros/marcas"
+    models: "${fipe_api.paths.brands}/{brandId}/modelos"
+    cars: ""
