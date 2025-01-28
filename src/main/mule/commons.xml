@@ -1,17 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
 	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
-http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
-	<sub-flow name="generic-https-requester-commons-flow" doc:id="a3f9e096-993f-49e8-8d78-11fc9855208d" >
-		<logger level="INFO" doc:name="[INFO] - Generic HTTPS Request - Before Request" doc:id="456a4b3a-bceb-4dc7-a2aa-8aabd9c82048" message="#[genericHttpsRequesterBefore: {&#10;	host: vars.genericRequester.host,&#10;	path: vars.genericRequester.path&#10;}]"/>
-		<http:request method='#[vars.genericRequester.method default ""]' doc:name="Generic HTTPS Requester" doc:id="797482ca-7635-44ce-bf97-3f4cc7ed12c0" config-ref="Generic_HTTPS_Requester_Configuration" path='#[vars.genericRequester.path default ""]'>
-			<http:body ><![CDATA[#[vars.genericRequester.body default {}]]]></http:body>
-			<http:headers ><![CDATA[#[vars.genericRequester.headers default {}]]]></http:headers>
-			<http:uri-params ><![CDATA[#[vars.genericRequester.uriParameters default {}]]]></http:uri-params>
-			<http:query-params ><![CDATA[#[vars.genericRequester.queryParameters default {}]]]></http:query-params>
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	
+	<sub-flow name="generic-https-requester-commons-flow"
+		doc:id="a3f9e096-993f-49e8-8d78-11fc9855208d">
+		<logger level="INFO"
+			doc:name="[INFO] - Generic HTTPS Request - Before Request"
+			doc:id="456a4b3a-bceb-4dc7-a2aa-8aabd9c82048"
+			message="#[genericHttpsRequesterBefore: {&#10;	host: vars.genericRequester.host,&#10;	path: vars.genericRequester.path&#10;}]" />
+		<http:request
+			method='#[vars.genericRequester.method default ""]'
+			doc:name="Generic HTTPS Requester"
+			doc:id="797482ca-7635-44ce-bf97-3f4cc7ed12c0"
+			config-ref="Generic_HTTPS_Requester_Configuration"
+			path='#[vars.genericRequester.path default ""]'>
+			<http:body><![CDATA[#[vars.genericRequester.body default {}]]]></http:body>
+			<http:headers><![CDATA[#[vars.genericRequester.headers default {}]]]></http:headers>
+			<http:uri-params><![CDATA[#[vars.genericRequester.uriParameters default {}]]]></http:uri-params>
+			<http:query-params><![CDATA[#[vars.genericRequester.queryParameters default {}]]]></http:query-params>
 		</http:request>
-		<logger level="INFO" doc:name="[INFO] - Generic HTTPS Request - After Request" doc:id="02a19ee1-c558-4157-9e11-a857be86eb24" message="#[genericHttpsRequesterAfter: {&#10;	statusResponse: attributes.statusCode&#10;}]" />
+		<logger level="INFO"
+			doc:name="[INFO] - Generic HTTPS Request - After Request"
+			doc:id="02a19ee1-c558-4157-9e11-a857be86eb24"
+			message="#[genericHttpsRequesterAfter: {&#10;	statusResponse: attributes.statusCode&#10;}]" />
 	</sub-flow>
 </mule>
