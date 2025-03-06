@@ -73,10 +73,17 @@
 			doc:name="Set vars.genericRequester"
 			doc:id="23ceb82b-8b3a-4538-8c7e-1d5e73655699"
 			variableName="genericRequester" />
-		<ee:cache doc:name="Cache" doc:id="7bf6ff5c-65c9-4a72-933b-bdf34c93aceb" cachingStrategy-ref="Caching_Strategy_Car_Brands">
-			<until-successful maxRetries="2" doc:name="Until Successful" doc:id="fbf670e4-a048-4ff1-9f59-f4ba6d90589b" millisBetweenRetries="2000">
-			<flow-ref doc:name="generic-https-requester-commons-flow" doc:id="4216133e-3b31-4b60-975f-1d1746ffdc24" name="generic-https-requester-commons-flow" />
-		</until-successful>
+		<ee:cache doc:name="Cache"
+			doc:id="7bf6ff5c-65c9-4a72-933b-bdf34c93aceb"
+			cachingStrategy-ref="Caching_Strategy_Car_Brands">
+			<until-successful maxRetries="2"
+				doc:name="Until Successful"
+				doc:id="fbf670e4-a048-4ff1-9f59-f4ba6d90589b"
+				millisBetweenRetries="2000">
+				<flow-ref doc:name="generic-https-requester-commons-flow"
+					doc:id="4216133e-3b31-4b60-975f-1d1746ffdc24"
+					name="generic-https-requester-commons-flow" />
+			</until-successful>
 		</ee:cache>
 		<set-variable
 			value="#[%dw 2.0&#10;output application/json&#10;---&#10;(payload[?((upper($.nome)) == (upper(vars.carInfo.brand)))])[0].codigo]"
@@ -102,10 +109,17 @@
 			doc:name="Set vars.genericRequester"
 			doc:id="d16aa985-44ac-462e-9ce3-976c8fb0a33b"
 			variableName="genericRequester" />
-		<ee:cache doc:name="Cache" doc:id="868901dc-2f8d-4571-adb7-594197902108" cachingStrategy-ref="Caching_Strategy_Car_Models">
-			<until-successful maxRetries="2" doc:name="Until Successful" doc:id="b2c4b9b7-18f2-4b94-a49c-9a9c6f3099e2" millisBetweenRetries="2000">
-			<flow-ref doc:name="generic-https-requester-commons-flow" doc:id="1b95c367-2c7c-4d3c-9b34-176b47be29fa" name="generic-https-requester-commons-flow" />
-		</until-successful>
+		<ee:cache doc:name="Cache"
+			doc:id="868901dc-2f8d-4571-adb7-594197902108"
+			cachingStrategy-ref="Caching_Strategy_Car_Models">
+			<until-successful maxRetries="2"
+				doc:name="Until Successful"
+				doc:id="b2c4b9b7-18f2-4b94-a49c-9a9c6f3099e2"
+				millisBetweenRetries="2000">
+				<flow-ref doc:name="generic-https-requester-commons-flow"
+					doc:id="1b95c367-2c7c-4d3c-9b34-176b47be29fa"
+					name="generic-https-requester-commons-flow" />
+			</until-successful>
 		</ee:cache>
 		<set-variable
 			value='#[%dw 2.0&#10;output application/json&#10;&#10;fun generateRegexPattern(words) = (&#10;	((words map() -&gt; ("(?=.*\\b" ++ upper($) ++ "\\b)")) joinBy "")&#10;)&#10;&#10;fun getModels(carDetails) = (&#10;	payload.modelos filter (&#10;    	upper($.nome) matches (/^/ ++ (generateRegexPattern((vars.carInfo.carDetails splitBy " ")[?(!isBlank($))])) ++ /.+$/)&#10;	)&#10;)&#10;--- &#10;if(getModels(vars.carInfo.carDetails) != [])(&#10;	getModels(vars.carInfo.carDetails)&#10;)&#10;else(&#10;	getModels(vars.carInfo.carDetails replace /[^a-zA-Z\s]/ with(""))&#10;)]'
@@ -123,7 +137,7 @@
 			doc:id="fd3fda09-02ab-4f3c-ba5c-4c8bef4014aa"
 			message='#[%dw 2.0 output application/json --- "$(vars.setup.process) - Car model found successfully!"]' />
 	</sub-flow>
-	
+
 	<sub-flow name="get-car-year-brazil-fipe-car-api-flow"
 		doc:id="8a9852e3-62bb-49f9-91d2-2eedc78f3f9a">
 		<set-variable
@@ -131,10 +145,17 @@
 			doc:name="Set vars.genericRequester"
 			doc:id="97456683-6b26-4b24-be22-5dd126df968b"
 			variableName="genericRequester" />
-		<ee:cache doc:name="Cache" doc:id="d5af824a-081e-41ac-b507-5b1b1f4abf40" cachingStrategy-ref="Caching_Strategy_Car_Years">
-			<until-successful maxRetries="2" doc:name="Until Successful" doc:id="1c9ca5df-624b-4a19-8726-d1261dbaf756" millisBetweenRetries="2000">
-			<flow-ref doc:name="generic-https-requester-commons-flow" doc:id="e545bb45-74b2-47c6-a5c9-21ea483e302f" name="generic-https-requester-commons-flow" />
-		</until-successful>
+		<ee:cache doc:name="Cache"
+			doc:id="d5af824a-081e-41ac-b507-5b1b1f4abf40"
+			cachingStrategy-ref="Caching_Strategy_Car_Years">
+			<until-successful maxRetries="2"
+				doc:name="Until Successful"
+				doc:id="1c9ca5df-624b-4a19-8726-d1261dbaf756"
+				millisBetweenRetries="2000">
+				<flow-ref doc:name="generic-https-requester-commons-flow"
+					doc:id="e545bb45-74b2-47c6-a5c9-21ea483e302f"
+					name="generic-https-requester-commons-flow" />
+			</until-successful>
 		</ee:cache>
 		<set-variable
 			value='#[%dw 2.0&#10;output application/json&#10;---&#10;(payload[?((upper($.nome)) contains (upper(vars.carInfo.year)))])[0].codigo]'
@@ -152,7 +173,7 @@
 			doc:id="7362f8b0-53b7-4ccf-97d8-da1a916672ab"
 			message='#[%dw 2.0 output application/json --- "$(vars.setup.process) - Car year found successfully!"]' />
 	</sub-flow>
-	
+
 	<sub-flow name="get-car-data-brazil-fipe-car-api-flow"
 		doc:id="1032618e-c86c-413d-9efc-2d0fb0cd1a8f">
 		<set-variable
@@ -160,10 +181,17 @@
 			doc:name="Set vars.genericRequester"
 			doc:id="7da86f7d-4de4-4a3a-a390-0b392678c1be"
 			variableName="genericRequester" />
-		<ee:cache doc:name="Cache" doc:id="7d783274-4f99-491f-8021-dec8d4ddc9ee" cachingStrategy-ref="Caching_Strategy_Car_Infos">
-			<until-successful maxRetries="2" doc:name="Until Successful" doc:id="446be812-e5f8-493f-8962-c0c554b8d44b" millisBetweenRetries="2000">
-			<flow-ref doc:name="generic-https-requester-commons-flow" doc:id="3868f3bf-107b-477b-bb77-4e34f403f70b" name="generic-https-requester-commons-flow" />
-		</until-successful>
+		<ee:cache doc:name="Cache"
+			doc:id="7d783274-4f99-491f-8021-dec8d4ddc9ee"
+			cachingStrategy-ref="Caching_Strategy_Car_Infos">
+			<until-successful maxRetries="2"
+				doc:name="Until Successful"
+				doc:id="446be812-e5f8-493f-8962-c0c554b8d44b"
+				millisBetweenRetries="2000">
+				<flow-ref doc:name="generic-https-requester-commons-flow"
+					doc:id="3868f3bf-107b-477b-bb77-4e34f403f70b"
+					name="generic-https-requester-commons-flow" />
+			</until-successful>
 		</ee:cache>
 		<validation:is-not-null
 			doc:name="Was the car data found?"
