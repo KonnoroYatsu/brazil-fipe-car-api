@@ -1,7 +1,9 @@
+# Parallelum Fipe API - Responsible for returning Fipe table values for various vehicles.
 fipe_api:
   host: "parallelum.com.br"
   base_path: "fipe/api/v1"
   paths: 
     brands: "carros/marcas"
     models: "${fipe_api.paths.brands}/{brandId}/modelos"
-    cars: ""
+    years: "${fipe_api.paths.models}/{modelId}/anos"
+    cars: "${fipe_api.paths.years}/{yearId}"
