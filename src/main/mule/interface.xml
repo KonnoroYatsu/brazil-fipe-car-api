@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+
+	<flow name="get-car-fipe-interface-flow"
+		doc:id="93719f3c-a807-4be6-aa39-d6bdc7693ae7">
+		<http:listener doc:name="Listener"
+			doc:id="fc134d21-9197-4916-81c2-8fa4a3c40048"
+			config-ref="HTTP_Listener_Config" path="/car-fipe">
+			<http:response
+				statusCode="#[vars.httpStatus default 200]">
+				<http:headers><![CDATA[#[output application/java
+---
+{
+	"Access-Control-Allow-Origin" : "*"
+}]]]></http:headers>
+			</http:response>
+			<http:error-response
+				statusCode="#[vars.httpStatus default 200]">
+				<http:body><![CDATA[#[payload]]]></http:body>
+				<http:headers><![CDATA[#[output application/java
+---
+{
+	"Access-Control-Allow-Origin" : "*"
+}]]]></http:headers>
+			</http:error-response>
+		</http:listener>
+		<set-variable
+			value='#[%dw 2.0 output application/json ---&#10;{&#10;	process: "Search car FIPE"&#10;}]'
+			doc:name="Set vars.setup"
+			doc:id="a44c9e07-3f6c-4ebb-b858-70ef74481cf1" variableName="setup" />
+		<logger level="INFO" doc:name="[INFO] - Stating process"
+			doc:id="e0ac85eb-e935-463e-98e3-2748299655f6"
+			message='#[%dw 2.0 output application/json --- "$(vars.setup.process) - Stating process."]' />
+		<flow-ref doc:name="main-brazil-fipe-car-api-flow"
+			doc:id="ceaeac9b-a543-42cb-9160-4d36980f84ff"
+			name="main-brazil-fipe-car-api-flow" />
+		<logger level="INFO" doc:name="[INFO] - Finished process"
+			doc:id="6653a162-e060-47d8-ad0c-ac32a545cca7"
+			message='#[%dw 2.0 output application/json --- "$(vars.setup.process) - Finished process."]' />
+	</flow>
+</mule>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:os="http://www.mulesoft.org/schema/mule/os"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+		http://www.mulesoft.org/schema/mule/os http://www.mulesoft.org/schema/mule/os/current/mule-os.xsd
+		http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+
+	<http:request-config
+		name="Generic_HTTPS_Requester_Configuration"
+		doc:name="HTTP Request configuration"
+		doc:id="25467037-694b-4f2b-81a1-77a8dc6d8a44"
+		basePath='#[vars.genericRequester.basePath default ""]'>
+		<http:request-connection protocol="HTTPS"
+			host='#[vars.genericRequester.host default ""]'
+			port='#[vars.genericRequester.port default 443]' />
+	</http:request-config>
+
+	<http:listener-config name="HTTP_Listener_Config"
+		doc:name="HTTP Listener config"
+		doc:id="469561e4-bf59-4c35-963a-e476cdd5201f">
+		<http:listener-connection host="0.0.0.0"
+			port="8081" />
+	</http:listener-config>
+
+	<configuration-properties
+		doc:name="Configuration_Properties"
+		doc:id="3bea8a3e-d42b-4ca7-b4b5-22155fa98d41"
+		file="properties\properties.yaml" />
+
+	<os:object-store name="Object_Store_Cache_Car_Brands"
+		doc:name="Object store" doc:id="8324cb5d-c110-4422-92c5-41d82dbe1572"
+		entryTtl="7" entryTtlUnit="DAYS" expirationIntervalUnit="DAYS" />
+
+	<os:object-store name="Object_Store_Cache_Car_Models"
+		doc:name="Object store" doc:id="ed1c076a-47d5-43e1-a5ad-5af8f813ea87"
+		entryTtl="7" entryTtlUnit="DAYS" expirationIntervalUnit="DAYS" />
+
+	<os:object-store name="Object_Store_Cache_Car_Years"
+		doc:name="Object store" doc:id="709754eb-1889-4911-94cc-722b6d0c2a7b"
+		entryTtl="7" entryTtlUnit="DAYS" expirationIntervalUnit="DAYS" />
+
+	<os:object-store name="Object_Store_Cache_Car_Infos"
+		doc:name="Object store" doc:id="e4ab2018-912a-4149-97d0-fdff5d60ec5b"
+		entryTtl="7" entryTtlUnit="DAYS" expirationIntervalUnit="DAYS" />
+
+	<ee:object-store-caching-strategy
+		name="Caching_Strategy_Car_Brands" doc:name="Caching Strategy"
+		doc:id="576fc1e4-36da-477c-a3d9-d8b1759853d3"
+		keyGenerationExpression='#["Car_Brands"]'
+		objectStore="Object_Store_Cache_Car_Brands" />
+
+	<ee:object-store-caching-strategy
+		name="Caching_Strategy_Car_Models" doc:name="Caching Strategy"
+		doc:id="58ecbfde-f346-4ad6-84aa-5e9a102a8ccc"
+		keyGenerationExpression='#["Car_Model_$(vars.brandId)"]'
+		objectStore="Object_Store_Cache_Car_Models" />
+
+	<ee:object-store-caching-strategy
+		name="Caching_Strategy_Car_Years" doc:name="Caching Strategy"
+		doc:id="72e1e541-c669-44cc-a88d-41600208e4ed"
+		keyGenerationExpression='#["Car_Year_$(vars.modelId)"]'
+		objectStore="Object_Store_Cache_Car_Years" />
+
+	<ee:object-store-caching-strategy
+		name="Caching_Strategy_Car_Infos" doc:name="Caching Strategy"
+		doc:id="ffc81fc3-9a90-4d76-bcfb-c6faa3c6e588"
+		keyGenerationExpression='#["Car_Info_$(vars.modelId)_$(vars.yearId)"]'
+		objectStore="Object_Store_Cache_Car_Infos" />
+</mule>

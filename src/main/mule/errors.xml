@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+
+	<error-handler
+		name="common-brazil-fipe-car-error-handler-errors-flow"
+		doc:id="46235ddd-b6e8-4299-8dd3-a7a52ff08ec6">
+		<on-error-propagate enableNotifications="true"
+			logException="false" doc:name="On Error Propagate"
+			doc:id="971c5ae0-80bd-4156-8da7-26c1ed3f998b"
+			type="FIPECAR:NOT_FOUND">
+			<logger level="ERROR" doc:name="[ERROR] - Log Error"
+				doc:id="52d86f26-e59a-41b0-99bc-d5a67aaefb87"
+				message='#[%dw 2.0 output application/json --- "$(vars.setup.process) - An error occurred: " ++ error.description]' />
+			<set-variable value="400" doc:name="Set vars.httpStatus"
+				doc:id="c76d3e53-b59d-4e02-9ebd-f66f55177b30"
+				variableName="httpStatus" />
+			<set-payload
+				value='#[%dw 2.0 output application/json ---&#10;{&#10;	"error":{&#10;		"type": "$(error.errorType.namespace):$(error.errorType.identifier)" default "",&#10;		"httpStatus": vars.httpStatus,&#10;		"descrption": error.description default "",&#10;		"detailedDescrption": error.detailedDescription default ""&#10;	}&#10;}]'
+				doc:name="Set error payload"
+				doc:id="21793349-07e9-4b96-8505-19d0d8018563" />
+		</on-error-propagate>
+		<on-error-propagate enableNotifications="true"
+			logException="true" doc:name="On Error Propagate"
+			doc:id="16fe09df-7cdf-4902-b843-1789540da190">
+			<logger level="ERROR" doc:name="[ERROR] - Log Error"
+				doc:id="1e1a739d-45f1-4c21-b602-b76545049c14"
+				message='#[%dw 2.0 output application/json --- "$(vars.setup.process) - An error occurred: " ++ error.description]' />
+			<set-variable value="500" doc:name="Set vars.httpStatus"
+				doc:id="bd80be0e-e44e-4eff-a98d-d820d7c675ac"
+				variableName="httpStatus" />
+			<set-payload
+				value='#[%dw 2.0 output application/json ---&#10;{&#10;	"error":{&#10;		"type": "$(error.errorType.namespace):$(error.errorType.identifier)" default "",&#10;		"httpStatus": vars.httpStatus,&#10;		"descrption": error.description default "",&#10;		"detailedDescrption": error.detailedDescription default ""&#10;	}&#10;}]'
+				doc:name="Set error payload"
+				doc:id="65b82784-cfe9-44cc-acdf-e64c0213f0f7" />
+		</on-error-propagate>
+	</error-handler>
+</mule>
