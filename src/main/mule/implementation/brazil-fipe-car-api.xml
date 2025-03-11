@@ -7,7 +7,8 @@
 	xmlns="http://www.mulesoft.org/schema/mule/core"
 	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 		http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
 		http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
 		http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd">
@@ -63,7 +64,7 @@
 			doc:name="Set final payload"
 			doc:id="d4047fc1-7af5-468c-b0c2-99782b234fff" />
 		<error-handler
-			ref="common-brazil-fipe-car-error-handler-errors-flow" />
+			ref="brazil-fipe-car-error-handler-errors-flow" />
 	</flow>
 
 	<sub-flow name="get-car-brand-id-brazil-fipe-car-api-flow"

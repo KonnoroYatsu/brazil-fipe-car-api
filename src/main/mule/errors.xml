@@ -8,7 +8,7 @@
 		http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
 
 	<error-handler
-		name="common-brazil-fipe-car-error-handler-errors-flow"
+		name="brazil-fipe-car-error-handler-errors-flow"
 		doc:id="46235ddd-b6e8-4299-8dd3-a7a52ff08ec6">
 		<on-error-propagate enableNotifications="true"
 			logException="false" doc:name="On Error Propagate"
@@ -38,6 +38,85 @@
 				value='#[%dw 2.0 output application/json ---&#10;{&#10;	"error":{&#10;		"type": "$(error.errorType.namespace):$(error.errorType.identifier)" default "",&#10;		"httpStatus": vars.httpStatus,&#10;		"descrption": error.description default "",&#10;		"detailedDescrption": error.detailedDescription default ""&#10;	}&#10;}]'
 				doc:name="Set error payload"
 				doc:id="65b82784-cfe9-44cc-acdf-e64c0213f0f7" />
+		</on-error-propagate>
+	</error-handler>
+
+	<error-handler
+		doc:id="e7be0994-0cf4-480b-9121-2e4857e5c621"
+		name="api-kit-error-handler-errors-flow">
+		<on-error-propagate type="APIKIT:BAD_REQUEST">
+			<logger level="ERROR" doc:name="[ERROR] - Log Error"
+				doc:id="97ec947b-134c-4798-9010-9fbf8e0bc158"
+				message='#[%dw 2.0 output application/json --- "API KIT - An error occurred: " ++ error.description]' />
+			<set-variable value="400" doc:name="Set vars.httpStatus"
+				doc:id="05d80a29-e473-4b54-ae30-e6b82a5790a1"
+				variableName="httpStatus" />
+			<set-payload
+				value='#[%dw 2.0 output application/json ---&#10;{&#10;	"error":{&#10;		"type": "$(error.errorType.namespace):$(error.errorType.identifier)" default "",&#10;		"httpStatus": vars.httpStatus,&#10;		"descrption": error.description default "",&#10;		"detailedDescrption": "$(error.errorType.identifier) - $(error.detailedDescription)" default ""&#10;	}&#10;}]'
+				doc:name="Set error payload"
+				doc:id="e2697ab2-4e23-49f9-8dfa-6b9148e15696" />
+		</on-error-propagate>
+		<on-error-propagate type="APIKIT:NOT_FOUND">
+			<logger level="ERROR" doc:name="[ERROR] - Log Error"
+				doc:id="5d137e58-6d2e-4a98-9595-9aa45db268de"
+				message='#[%dw 2.0 output application/json --- "API KIT - An error occurred: " ++ error.description]' />
+			<set-variable value="404" doc:name="Set vars.httpStatus"
+				doc:id="bc4652b7-a2b2-4dcb-b98b-723ddf95860a"
+				variableName="httpStatus" />
+			<set-payload
+				value='#[%dw 2.0 output application/json ---&#10;{&#10;	"error":{&#10;		"type": "$(error.errorType.namespace):$(error.errorType.identifier)" default "",&#10;		"httpStatus": vars.httpStatus,&#10;		"descrption": error.description default "",&#10;		"detailedDescrption": "$(error.errorType.identifier) - $(error.detailedDescription)" default ""&#10;	}&#10;}]'
+				doc:name="Set error payload"
+				doc:id="ba845404-192e-4a3c-891e-77c6c48b6d9d" />
+		</on-error-propagate>
+		<on-error-propagate
+			type="APIKIT:METHOD_NOT_ALLOWED">
+			<logger level="ERROR" doc:name="[ERROR] - Log Error"
+				doc:id="d0c6b78a-0331-4e06-afe5-71d11d5c7803"
+				message='#[%dw 2.0 output application/json --- "API KIT - An error occurred: " ++ error.description]' />
+			<set-variable value="405" doc:name="Set vars.httpStatus"
+				doc:id="3c122886-a587-427c-8609-144496163bd0"
+				variableName="httpStatus" />
+			<set-payload
+				value='#[%dw 2.0 output application/json ---&#10;{&#10;	"error":{&#10;		"type": "$(error.errorType.namespace):$(error.errorType.identifier)" default "",&#10;		"httpStatus": vars.httpStatus,&#10;		"descrption": error.description default "",&#10;		"detailedDescrption": "$(error.errorType.identifier) - $(error.detailedDescription)" default ""&#10;	}&#10;}]'
+				doc:name="Set error payload"
+				doc:id="eb87ba0d-12c7-4e33-9547-b81c96a9bca2" />
+		</on-error-propagate>
+		<on-error-propagate type="APIKIT:NOT_ACCEPTABLE">
+			<logger level="ERROR" doc:name="[ERROR] - Log Error"
+				doc:id="42ef40be-470c-4613-9730-f6fe76da6789"
+				message='#[%dw 2.0 output application/json --- "API KIT - An error occurred: " ++ error.description]' />
+			<set-variable value="406" doc:name="Set vars.httpStatus"
+				doc:id="fca37cae-c05b-4374-9fac-ad2262d40c30"
+				variableName="httpStatus" />
+			<set-payload
+				value='#[%dw 2.0 output application/json ---&#10;{&#10;	"error":{&#10;		"type": "$(error.errorType.namespace):$(error.errorType.identifier)" default "",&#10;		"httpStatus": vars.httpStatus,&#10;		"descrption": error.description default "",&#10;		"detailedDescrption": "$(error.errorType.identifier) - $(error.detailedDescription)" default ""&#10;	}&#10;}]'
+				doc:name="Set error payload"
+				doc:id="680f45b9-755e-4196-9dd7-3a33679ad208" />
+		</on-error-propagate>
+		<on-error-propagate
+			type="APIKIT:UNSUPPORTED_MEDIA_TYPE">
+			<logger level="ERROR" doc:name="[ERROR] - Log Error"
+				doc:id="dace471c-ae6b-4a7f-a135-c5a205725998"
+				message='#[%dw 2.0 output application/json --- "API KIT - An error occurred: " ++ error.description]' />
+			<set-variable value="415" doc:name="Set vars.httpStatus"
+				doc:id="9e9be9d1-2e98-43d4-8d7c-587e25f6664e"
+				variableName="httpStatus" />
+			<set-payload
+				value='#[%dw 2.0 output application/json ---&#10;{&#10;	"error":{&#10;		"type": "$(error.errorType.namespace):$(error.errorType.identifier)" default "",&#10;		"httpStatus": vars.httpStatus,&#10;		"descrption": error.description default "",&#10;		"detailedDescrption": "$(error.errorType.identifier) - $(error.detailedDescription)" default ""&#10;	}&#10;}]'
+				doc:name="Set error payload"
+				doc:id="3ddc40c1-5cad-43bb-8feb-1f533cfc9266" />
+		</on-error-propagate>
+		<on-error-propagate type="APIKIT:NOT_IMPLEMENTED">
+			<logger level="ERROR" doc:name="[ERROR] - Log Error"
+				doc:id="b1c25488-a8cc-467b-8a9d-edec911ebae7"
+				message='#[%dw 2.0 output application/json --- "API KIT - An error occurred: " ++ error.description]' />
+			<set-variable value="501" doc:name="Set vars.httpStatus"
+				doc:id="cca5097e-bd27-4015-8e5d-b67cf32e4377"
+				variableName="httpStatus" />
+			<set-payload
+				value='#[%dw 2.0 output application/json ---&#10;{&#10;	"error":{&#10;		"type": "$(error.errorType.namespace):$(error.errorType.identifier)" default "",&#10;		"httpStatus": vars.httpStatus,&#10;		"descrption": error.description default "",&#10;		"detailedDescrption": "$(error.errorType.identifier) - $(error.detailedDescription)" default ""&#10;	}&#10;}]'
+				doc:name="Set error payload"
+				doc:id="c2fde609-491b-4043-af5b-cf65ae988a76" />
 		</on-error-propagate>
 	</error-handler>
 </mule>

@@ -1,0 +1,24 @@
+[
+    {
+        "TipoVeiculo": 1,
+        "Valor": "R$ 23.544,00",
+        "Marca": "Honda",
+        "Modelo": "Civic Sedan LX 1.7 16V 115cv Mec. 4p",
+        "AnoModelo": 2005,
+        "Combustivel": "Gasolina",
+        "CodigoFipe": "014036-8",
+        "MesReferencia": "março de 2025",
+        "SiglaCombustivel": "G"
+    },
+    {
+        "TipoVeiculo": 1,
+        "Valor": "R$ 25.766,00",
+        "Marca": "Honda",
+        "Modelo": "Civic Sedan LX/LXL 1.7 16V 115cv Aut. 4p",
+        "AnoModelo": 2005,
+        "Combustivel": "Gasolina",
+        "CodigoFipe": "014035-0",
+        "MesReferencia": "março de 2025",
+        "SiglaCombustivel": "G"
+    }
+]
